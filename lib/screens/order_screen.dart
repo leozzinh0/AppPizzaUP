@@ -68,7 +68,11 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Column(children: [
                   const Text(
                     'Monte sua pizza',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Caprasimo',
+                        color: Colors.red),
                   ),
                   const Text(
                     'Selecione o tamanho:',
@@ -157,25 +161,9 @@ class _OrderScreenState extends State<OrderScreen> {
                     }).toList(),
                   ),
                   const SizedBox(height: 20),
-                  const Text('Digite seu endereço:',
-                      style: TextStyle(fontSize: 20)),
-                  TextFormField(
-                    initialValue: _widgetsValue.get('texto'),
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.home), labelText: 'Endereço'),
-                    onSaved: (String? value) {
-                      setState(() {
-                        _widgetsValue.put('texto', value);
-                      });
-                    },
-                    onChanged: (value) {},
-                  ),
-                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       _formkey.currentState!.save();
-                      final endereco = _widgetsValue.get('texto');
-                      createUser(endereco: endereco);
 
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           backgroundColor: Colors.green,

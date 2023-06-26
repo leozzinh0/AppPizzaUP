@@ -27,7 +27,7 @@ class _ContaState extends State<Conta> {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Bom dia, @Usuario!',
+              'Olá, @Usuario!',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

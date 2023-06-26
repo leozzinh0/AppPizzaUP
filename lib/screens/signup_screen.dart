@@ -17,9 +17,10 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(),
         body: SingleChildScrollView(
             child: Padding(
-                padding: EdgeInsets.only(top: 100),
+                padding: EdgeInsets.only(top: 50),
                 child: Form(
                     key: formKey,
                     child: Column(
@@ -28,34 +29,84 @@ class _SignUpPageState extends State<SignUpPage> {
                           Text(
                             'Cadastre-se agora',
                             style: TextStyle(
+                              color: Colors.red,
+                              fontFamily: 'Caprasimo',
                               fontSize: 35,
-                              fontWeight: FontWeight.bold,
                               letterSpacing: -1.5,
                             ),
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 24)),
+                          Row(
+                            children: <Widget>[
+                              Padding(padding: EdgeInsets.all(12)),
+                              Expanded(
+                                  child: TextFormField(
+                                      decoration: InputDecoration(
+                                          prefixIcon:
+                                              Icon(Icons.account_circle),
+                                          border: OutlineInputBorder(),
+                                          labelText: 'Nome'))),
+                              Padding(padding: EdgeInsets.all(12)),
+                              Expanded(
+                                  child: TextFormField(
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: 'Sobrenome'))),
+                              Padding(padding: EdgeInsets.all(12)),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(24),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.home),
+                                border: OutlineInputBorder(),
+                                labelText: 'Endereço',
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Padding(padding: EdgeInsets.all(12)),
+                              SizedBox(
+                                  width: 300,
+                                  child: TextFormField(
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: 'Bairro'))),
+                              SizedBox(width: 10.0),
+                              Expanded(
+                                  child: TextFormField(
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: 'Número'))),
+                              Padding(padding: EdgeInsets.all(12)),
+                            ],
                           ),
                           Padding(
                             padding: EdgeInsets.all(24),
                             child: TextFormField(
                                 controller: _emailTextController,
                                 decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.email_outlined),
                                   border: OutlineInputBorder(),
                                   labelText: 'Email',
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Informe o email corretamente!';
+                                    return 'Informe um e-mail válido';
                                   }
                                   return null;
                                 }),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 12.0, horizontal: 24.0),
+                            padding: EdgeInsets.fromLTRB(24, 0, 24, 12),
                             child: TextFormField(
                               controller: _passwordTextController,
                               obscureText: true,
                               decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.lock),
                                 border: OutlineInputBorder(),
                                 labelText: 'Senha',
                               ),

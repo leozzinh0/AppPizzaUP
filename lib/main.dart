@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mytelephone/screens/login_screen.dart';
-
 import 'screens/signup_screen.dart';
 
 Future main() async {
@@ -54,28 +53,39 @@ class IntroductionScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const Text(
+              'Seja bem-vindo ao',
+              style: TextStyle(fontSize: 20, fontFamily: 'Caprasimo'),
+            ),
+            const Text(
+              'GoPizza!',
+              style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Shrikhand'),
+            ),
             Image.asset(
               '../assets/images/pizza.png',
               width: 200,
               height: 200,
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Seja bem-vindo!',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             const Text(
               'Conheça o cardápio e monte seu pedido com facilidade',
+              style: TextStyle(
+                  fontFamily: 'PathwayExtreme', fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             ElevatedButton.icon(
               icon: const Icon(Icons.start),
               label: const Text('Fazer login'),
-              onPressed: () {
-                _navigateToNextScreen(context);
-              },
+              onPressed: () => Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return LoginPage();
+                },
+              )),
             ),
             const SizedBox(height: 20),
             RichText(
@@ -86,7 +96,10 @@ class IntroductionScreen extends StatelessWidget {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      _navigateToCadastroScreen(context);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SignUpPage();
+                      }));
                     }),
             )
           ],

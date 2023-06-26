@@ -48,6 +48,16 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  fonts: 
+    - family: Shrikhand
+      fonts:
+        - asset: assets/fonts/Shrikhand-Regular.ttf
+    - family: Caprasimo
+      fonts:
+        - asset: assets/fonts/Caprasimo-Regular.ttf
+    - family: PathwayExtreme
+      fonts:
+        - asset: assets/fonts/PathwayExtreme.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -55,7 +65,6 @@ flutter:
   uses-material-design: true
   assets: 
     - assets/
-
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

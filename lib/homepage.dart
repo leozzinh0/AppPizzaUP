@@ -3,6 +3,8 @@ import 'package:mytelephone/screens/conta.dart';
 import 'package:mytelephone/screens/order_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'screens/carrinho.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -17,30 +19,31 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(actions: [Icon(Icons.abc)]),
-        //setState
-        /*   appBar: AppBar(
-          title: const Text(''),
-        ),*/
         body: IndexedStack(
           index: _currentScreen,
           children: const [
             Cardapio(title: 'Tela1'),
             OrderScreen(title: 'Tela2'),
-            Conta(title: 'Tela3'),
+            Carrinho(title: 'Tela3'),
+            Conta(title: 'Tela4'),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          unselectedItemColor: Colors.deepOrange,
+          unselectedLabelStyle: TextStyle(color: Colors.deepOrange),
+          selectedItemColor: Colors.red,
+          selectedLabelStyle: TextStyle(color: Colors.deepOrange),
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.account_box), label: "Cardápio"),
+                icon: Icon(Icons.menu_book), label: "Cardápio"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.cake), label: "Fazer pedido"),
+                icon: Icon(Icons.edit), label: "Fazer pedido"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.menu_book), label: "Minha Conta"),
+                icon: Icon(Icons.shopping_bag), label: "Pedido"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle), label: "Minha Conta"),
           ],
           currentIndex: _currentScreen,
-          fixedColor: Colors.red,
           onTap: (int novaTela) {
             setState(() {
               _currentScreen = novaTela;
