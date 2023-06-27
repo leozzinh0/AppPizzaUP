@@ -14,8 +14,14 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  TextEditingController _passwordTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                           Padding(
                             padding: EdgeInsets.all(24),
                             child: TextFormField(
-                                controller: _emailTextController,
+                                controller: emailController,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   prefixIcon: Icon(Icons.email_outlined),
@@ -59,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 12.0, horizontal: 24.0),
                             child: TextFormField(
-                              controller: _passwordTextController,
+                              controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.lock),
@@ -95,11 +101,11 @@ class _LoginPageState extends State<LoginPage> {
                               child: ElevatedButton(
                                   child: const Text('Entrar'),
                                   onPressed: () {
+                                    signUserIn();
                                     FirebaseAuth.instance
                                         .signInWithEmailAndPassword(
-                                            email: _emailTextController.text,
-                                            password:
-                                                _passwordTextController.text)
+                                            email: emailController.text,
+                                            password: passwordController.text)
                                         .then((value) {
                                       Navigator.push(
                                           context,

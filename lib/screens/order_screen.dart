@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -49,13 +48,6 @@ class _OrderScreenState extends State<OrderScreen> {
     tmpArray.clear();
   }
 
-  Future createUser({required String endereco}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc('my_id');
-
-    final json = {'endereco': endereco, 'sabor': 'sabor'};
-    await docUser.set(json);
-  }
-
   String? selectedValue;
   @override
   Widget build(BuildContext context) {
@@ -74,9 +66,11 @@ class _OrderScreenState extends State<OrderScreen> {
                         fontFamily: 'Caprasimo',
                         color: Colors.red),
                   ),
+                  const SizedBox(height: 20),
                   const Text(
                     'Selecione o tamanho:',
-                    style: TextStyle(fontSize: 20),
+                    style:
+                        TextStyle(fontSize: 20, fontFamily: 'PathwayExtreme'),
                   ),
                   DropdownButtonHideUnderline(
                       child: DropdownButton(
@@ -85,6 +79,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               color: Theme.of(context).hintColor,
+                              fontFamily: 'PathwayExtreme',
                             ),
                           ),
                           items: tamanhos
@@ -93,8 +88,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                     child: Text(
                                       item,
                                       style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
+                                          fontSize: 14,
+                                          fontFamily: 'PathwayExtreme'),
                                     ),
                                   ))
                               .toList(),
@@ -107,11 +102,13 @@ class _OrderScreenState extends State<OrderScreen> {
                           })),
                   const SizedBox(height: 20),
                   const Text('Selecione a borda:',
-                      style: TextStyle(fontSize: 20)),
+                      style: TextStyle(
+                          fontSize: 20, fontFamily: 'PathwayExtreme')),
                   Column(
                     children: [
                       RadioListTile(
-                          title: const Text('Normal'),
+                          title: const Text('Normal',
+                              style: TextStyle(fontFamily: 'PathwayExtreme')),
                           value: "opcao1",
                           groupValue: _widgetsValue.get('borda'),
                           onChanged: (value) {
@@ -121,7 +118,8 @@ class _OrderScreenState extends State<OrderScreen> {
                             _widgetsValue.put('borda', value);
                           }),
                       RadioListTile(
-                          title: const Text('Catupiry'),
+                          title: const Text('Catupiry',
+                              style: TextStyle(fontFamily: 'PathwayExtreme')),
                           value: "opcao2",
                           groupValue: _widgetsValue.get('borda'),
                           onChanged: (value) {
@@ -131,7 +129,8 @@ class _OrderScreenState extends State<OrderScreen> {
                             _widgetsValue.put('borda', value);
                           }),
                       RadioListTile(
-                          title: const Text('Cream cheese'),
+                          title: const Text('Cream cheese',
+                              style: TextStyle(fontFamily: 'PathwayExtreme')),
                           value: "opcao3",
                           groupValue: _widgetsValue.get('borda'),
                           onChanged: (value) {
@@ -144,12 +143,16 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                   const SizedBox(height: 20),
                   const Text('Escolha os sabores:',
-                      style: TextStyle(fontSize: 20)),
+                      style: TextStyle(
+                          fontSize: 20, fontFamily: 'PathwayExtreme')),
                   ListView(
                     shrinkWrap: true,
                     children: sabores.keys.map((String key) {
                       return CheckboxListTile(
-                        title: new Text(key),
+                        title: new Text(
+                          key,
+                          style: TextStyle(fontFamily: 'PathwayExtreme'),
+                        ),
                         value: _widgetsValue.get(key) ?? false,
                         onChanged: (value) {
                           setState(() {

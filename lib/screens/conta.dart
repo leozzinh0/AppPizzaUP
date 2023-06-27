@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,32 +14,42 @@ class Conta extends StatefulWidget {
 }
 
 class _ContaState extends State<Conta> {
+  final user = FirebaseAuth.instance.currentUser!;
+
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
+
+  void getDocData() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: user.email)
+        .get();
+  }
+
+  @override
+  void initState() {
+    getDocData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-              width: 200,
-              height: 200,
+            const SizedBox(height: 20),
+            Text(
+              'Olá, ' + user.email!,
+              style: TextStyle(fontFamily: 'PathwayExtreme', fontSize: 20),
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'Olá, @Usuario!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Email: xxxxxx@gmail.com Telefone: 19-999999999',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
-            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              icon: Icon(Icons.logout),
+              onPressed: signUserOut,
+              label: Text('Sair'),
+            )
           ],
         ),
       ),
