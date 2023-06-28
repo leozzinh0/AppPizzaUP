@@ -131,9 +131,6 @@ class _CarrinhoState extends State<Carrinho> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fetching data'),
-      ),
       body: Container(
         height: double.infinity,
         child: FirebaseAnimatedList(
