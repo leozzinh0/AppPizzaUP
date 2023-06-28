@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mytelephone/widget/checkbox_widget.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../model/checkbox_model.dart';
 
@@ -16,6 +16,16 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  final saborController = TextEditingController();
+
+  late DatabaseReference dbRef;
+
+  @override
+  void initState() {
+    super.initState();
+    dbRef = FirebaseDatabase.instance.ref().child('Pizza');
+  }
+
   // final _widgetsValue = Hive.box("widgets_values");
   String _tamanhoValue = 'Pequeno';
   String _bordaValue = '';
@@ -38,15 +48,6 @@ class _OrderScreenState extends State<OrderScreen> {
     CheckBoxModel(texto: "Marguerita"),
     CheckBoxModel(texto: "Muçarela"),
   ];
-
-  void listarApenasMarcados() {
-    List<CheckBoxModel> itensMarcados =
-        List.from(itens.where((item) => item.checked));
-
-    itensMarcados.forEach((item) {
-      print(item.texto);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,15 +132,17 @@ class _OrderScreenState extends State<OrderScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  const Text('Escolha os sabores:',
-                      style: TextStyle(
-                          fontSize: 20, fontFamily: 'PathwayExtreme')),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: itens.length,
-                      itemBuilder: (_, int index) {
-                        return CheckboxWidget(item: itens[index]);
-                      }),
+                  const Text('Digite seu Sabor:',
+                      style: TextStyle(fontSize: 20)),
+                  TextFormField(
+                    controller: saborController,
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.restaurant_menu), labelText: 'Sabor'),
+                    onSaved: (String? value) {
+                      setState(() {});
+                    },
+                    onChanged: (value) {},
+                  ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => showDialog(
@@ -172,7 +175,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                 style: TextStyle(fontFamily: 'PathwayExtreme'),
                               ),
                               Text(
-                                'Sabores',
+                                'Sabor(s)',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontFamily: 'PathwayExtreme'),
                               ),
@@ -200,13 +203,19 @@ class _OrderScreenState extends State<OrderScreen> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
+                                      Map<String, String> pizza = {
+                                        'borda': _bordaValue,
+                                        'tamanho': _tamanhoValue,
+                                        'sabor': saborController.text,
+                                      };
+
+                                      dbRef.push().set(pizza);
                                       Navigator.pop(context);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
                                               backgroundColor: Colors.green,
                                               duration: Duration(seconds: 2),
-                                              content: Text("Pedido feito")));
-                                    }),
+                                              content: Text("Pedido feito")));                                    }),
                             ),
                           ]),
                     ),

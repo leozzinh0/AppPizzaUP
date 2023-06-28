@@ -47,13 +47,14 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDOXpp2Td61u7eI1-IAYAl7i3hkP8IClbs',
-    appId: '1:569132697787:web:0e5b2e3aac315e1aff819e',
-    messagingSenderId: '569132697787',
-    projectId: 'deliveryapp-ac3db',
-    authDomain: 'deliveryapp-ac3db.firebaseapp.com',
-    databaseURL: 'https://deliveryapp-ac3db-default-rtdb.firebaseio.com',
-    storageBucket: 'deliveryapp-ac3db.appspot.com',
+          apiKey: "AIzaSyB9lNGzfsyORNEYF6zuFaZ-4ZMHR-uHTgY",
+          authDomain: "deliveryapp2705.firebaseapp.com",
+          databaseURL: "https://deliveryapp2705-default-rtdb.firebaseio.com",
+          projectId: "deliveryapp2705",
+          storageBucket: "deliveryapp2705.appspot.com",
+          messagingSenderId: "598180524456",
+          appId: "1:598180524456:web:4774bb73b2f1ad5245ed9d",
+  
   );
 
   static const FirebaseOptions android = FirebaseOptions(
