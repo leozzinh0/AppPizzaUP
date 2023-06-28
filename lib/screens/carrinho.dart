@@ -43,7 +43,7 @@ class _CarrinhoState extends State<Carrinho> {
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:mytelephone/List/update_record.dart';
+import 'package:mytelephone/screens/update_record.dart';
 import 'package:flutter/material.dart';
  
 class Carrinho extends StatefulWidget {
@@ -64,7 +64,7 @@ class _CarrinhoState extends State<Carrinho> {
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
-      height: 110,
+      height: 130,
       color: Colors.amberAccent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

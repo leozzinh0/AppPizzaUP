@@ -42,6 +42,18 @@ class _OrderScreenState extends State<OrderScreen> {
     'Grande',
   ];
 
+
+/*
+void listarApenasMarcados() {
+    List<CheckBoxModel> itensMarcados =
+        List.from(itens.where((item) => item.checked));
+
+    itensMarcados.forEach((item) {
+      print(item.texto);
+    });
+  }
+*/
+
   final List<CheckBoxModel> itens = [
     CheckBoxModel(texto: "Calabresa"),
     CheckBoxModel(texto: "Portuguesa"),
