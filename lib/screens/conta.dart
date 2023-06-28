@@ -20,25 +20,21 @@ class _ContaState extends State<Conta> {
     FirebaseAuth.instance.signOut();
   }
 
-  void getDocData() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .where('email', isEqualTo: user.email)
-        .get();
-  }
-
-  @override
-  void initState() {
-    getDocData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
           children: [
+            const SizedBox(height: 20),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100.0),
+              child: Image.network(
+                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+                width: 200,
+                height: 200,
+              ),
+            ),
             const SizedBox(height: 20),
             Text(
               'Olá, ' + user.email!,

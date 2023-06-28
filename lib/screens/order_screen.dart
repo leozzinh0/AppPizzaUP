@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mytelephone/widget/checkbox_widget.dart';
+
+import '../model/checkbox_model.dart';
 
 GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -14,41 +16,38 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  final _widgetsValue = Hive.box("widgets_values");
-  final controllerEndereco = TextEditingController();
-  final controllerSabores = TextEditingController();
+  // final _widgetsValue = Hive.box("widgets_values");
+  String _tamanhoValue = 'Pequeno';
+  String _bordaValue = '';
+
+  void checkRadio(String value) {
+    setState(() {
+      _bordaValue = value;
+    });
+  }
 
   final List<String> tamanhos = [
-    'Pequena',
-    'Média',
+    'Pequeno',
+    'Médio',
     'Grande',
   ];
 
-  String? qtdsabores;
-  String? borda;
-  String endereco = '';
+  final List<CheckBoxModel> itens = [
+    CheckBoxModel(texto: "Calabresa"),
+    CheckBoxModel(texto: "Portuguesa"),
+    CheckBoxModel(texto: "Marguerita"),
+    CheckBoxModel(texto: "Muçarela"),
+  ];
 
-  Map<String, bool> sabores = {
-    'Calabresa': false,
-    'Portuguesa': false,
-    'Marguerita': false,
-    'Muçarela': false,
-  };
+  void listarApenasMarcados() {
+    List<CheckBoxModel> itensMarcados =
+        List.from(itens.where((item) => item.checked));
 
-  var tmpArray = [];
-
-  getCheckboxItems() {
-    sabores.forEach((key, value) {
-      if (value == true) {
-        tmpArray.add(key);
-      }
+    itensMarcados.forEach((item) {
+      print(item.texto);
     });
-
-    print(tmpArray);
-    tmpArray.clear();
   }
 
-  String? selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +81,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               fontFamily: 'PathwayExtreme',
                             ),
                           ),
+                          value: _tamanhoValue,
                           items: tamanhos
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
@@ -93,12 +93,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                     ),
                                   ))
                               .toList(),
-                          value: _widgetsValue.get('tamanho'),
-                          onChanged: (value) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              selectedValue = value as String;
+                              _tamanhoValue = newValue!;
                             });
-                            _widgetsValue.put('tamanho', value as String);
                           })),
                   const SizedBox(height: 20),
                   const Text('Selecione a borda:',
@@ -109,35 +107,26 @@ class _OrderScreenState extends State<OrderScreen> {
                       RadioListTile(
                           title: const Text('Normal',
                               style: TextStyle(fontFamily: 'PathwayExtreme')),
-                          value: "opcao1",
-                          groupValue: _widgetsValue.get('borda'),
+                          value: "Normal",
+                          groupValue: _bordaValue,
                           onChanged: (value) {
-                            setState(() {
-                              borda = value.toString();
-                            });
-                            _widgetsValue.put('borda', value);
+                            checkRadio(value as String);
                           }),
                       RadioListTile(
                           title: const Text('Catupiry',
                               style: TextStyle(fontFamily: 'PathwayExtreme')),
-                          value: "opcao2",
-                          groupValue: _widgetsValue.get('borda'),
+                          value: "Catupiry",
+                          groupValue: _bordaValue,
                           onChanged: (value) {
-                            setState(() {
-                              borda = value.toString();
-                            });
-                            _widgetsValue.put('borda', value);
+                            checkRadio(value as String);
                           }),
                       RadioListTile(
                           title: const Text('Cream cheese',
                               style: TextStyle(fontFamily: 'PathwayExtreme')),
-                          value: "opcao3",
-                          groupValue: _widgetsValue.get('borda'),
+                          value: "Cream cheese",
+                          groupValue: _bordaValue,
                           onChanged: (value) {
-                            setState(() {
-                              borda = value.toString();
-                            });
-                            _widgetsValue.put('borda', value);
+                            checkRadio(value as String);
                           }),
                     ],
                   ),
@@ -145,35 +134,87 @@ class _OrderScreenState extends State<OrderScreen> {
                   const Text('Escolha os sabores:',
                       style: TextStyle(
                           fontSize: 20, fontFamily: 'PathwayExtreme')),
-                  ListView(
-                    shrinkWrap: true,
-                    children: sabores.keys.map((String key) {
-                      return CheckboxListTile(
-                        title: new Text(
-                          key,
-                          style: TextStyle(fontFamily: 'PathwayExtreme'),
-                        ),
-                        value: _widgetsValue.get(key) ?? false,
-                        onChanged: (value) {
-                          setState(() {
-                            sabores[key] = value!;
-                          });
-                          _widgetsValue.put(key, value!);
-                        },
-                      );
-                    }).toList(),
-                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: itens.length,
+                      itemBuilder: (_, int index) {
+                        return CheckboxWidget(item: itens[index]);
+                      }),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
-                      _formkey.currentState!.save();
-
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          backgroundColor: Colors.green,
-                          duration: Duration(seconds: 2),
-                          content: Text("Pedido feito")));
-                    },
-                    child: const Text('Pedir'),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                20.0,
+                              ),
+                            ),
+                          ),
+                          contentPadding:
+                              EdgeInsets.only(top: 30.0, bottom: 20.0),
+                          title: Text(
+                            'Confirme seu pedido',
+                            style: TextStyle(
+                                fontFamily: 'Caprasimo', color: Colors.red),
+                          ),
+                          content: SingleChildScrollView(
+                            child: ListBody(children: <Widget>[
+                              Text(
+                                'Tamanho $_tamanhoValue',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontFamily: 'PathwayExtreme'),
+                              ),
+                              Text(
+                                'Borda $_bordaValue',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontFamily: 'PathwayExtreme'),
+                              ),
+                              Text(
+                                'Sabores',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontFamily: 'PathwayExtreme'),
+                              ),
+                            ]),
+                          ),
+                          actions: [
+                            RichText(
+                              text: TextSpan(
+                                  text: 'Cancelar',
+                                  style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 243, 93, 33),
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pop(context);
+                                    }),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text: 'Confirmar pedido',
+                                  style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 243, 93, 33),
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              backgroundColor: Colors.green,
+                                              duration: Duration(seconds: 2),
+                                              content: Text("Pedido feito")));
+                                    }),
+                            ),
+                          ]),
+                    ),
+                    // _formkey.currentState!.save();
+                    child: const Text(
+                      'Pedir',
+                      style: TextStyle(fontFamily: 'Caprasimo'),
+                    ),
                   ),
                 ])))));
   }
